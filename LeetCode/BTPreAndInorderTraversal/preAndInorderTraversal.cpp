@@ -31,19 +31,39 @@ class Solution {
             return T;
         }
 
-        vector<int> inorderTraversal(TreeNode *root) {
+        vector<int> preorderTraversal(TreeNode* root) {
             vector<int> ivec;
-            stack<TreeNode*> Tstack;
+            stack<TreeNode*> tStack;
             TreeNode *p = root;
 
-            while (p || !Tstack.empty()) {
+            while (p || !tStack.empty()) {
                 if (p) {
-                    Tstack.push(p);
+                    tStack.push(p);
+                    ivec.push_back(p->val);
                     p = p->left;
                 }
                 else {
-                    p = Tstack.top();
-                    Tstack.pop();
+                    p = tStack.top();
+                    tStack.pop();
+                    p = p->right;
+                }
+            }
+            return ivec;
+        }
+
+        vector<int> inorderTraversal(TreeNode *root) {
+            vector<int> ivec;
+            stack<TreeNode*> tStack;
+            TreeNode *p = root;
+
+            while (p || !tStack.empty()) {
+                if (p) {
+                    tStack.push(p);
+                    p = p->left;
+                }
+                else {
+                    p = tStack.top();
+                    tStack.pop();
                     ivec.push_back(p->val);
                     p = p->right;
                 }
@@ -58,12 +78,20 @@ int main(int argr, const char *argv[])
     Solution s;
     vector<int> ivec;
     
+    cout << "create binary tree :" << endl;  
     T = s.createBinaryTree();
-    ivec = s.inorderTraversal(T);
+    cout << "preorder traversal :" << endl;  
+    ivec = s.preorderTraversal(T);
     for (auto i = 0; i < ivec.size(); ++i) {
         cout << ivec[i] << " ";
     }
     cout << endl;
 
+    cout << "inorder traversal : " << endl;
+    ivec = s.inorderTraversal(T);
+    for (auto i = 0; i < ivec.size(); ++i) {
+        cout << ivec[i] << " ";
+    }
+    cout << endl;
     return 0;
 }
